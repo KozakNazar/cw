@@ -1,1 +1,1 @@
-# cw
+# Compiler-compiler (example for SP)
