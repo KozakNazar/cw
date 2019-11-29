@@ -84,6 +84,7 @@ char reservedLexemes[MAX_RESERVED_LEXEMES_COUNT + 1][MAX_LEXEM_SIZE] = {
 	"NOT",                                             //(9)
 	"INTEGER16",                                       //(10)
 	//(11)
+	"WHILE",                                           //(12(+))
 	"'"
 };
 

@@ -246,9 +246,15 @@ sourceNotations[] = {
 
 	//
 
-	{ "<cycle_head_expression>", ABSTRACT_TOKEN_TYPE | VARIATIVE_PATERN_TYPE_TA, { { "~~", 0 }, { "<low_prioryty_expression>", ABSTRACT_TOKEN_TYPE }, { "", 0 } } },
+	{ "<while_cycle_head_expression>", ABSTRACT_TOKEN_TYPE | VARIATIVE_PATERN_TYPE_TA, { { "~~", 0 }, { "<low_prioryty_expression>", ABSTRACT_TOKEN_TYPE }, { "", 0 } } },
 
-	{ "<while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA, { { "~~", 0 }, { "WHILE", KEYWORD_TOKEN_TYPE }, { "<cycle_head_expression>", ABSTRACT_TOKEN_TYPE }, { "<cycle_body>", ABSTRACT_TOKEN_TYPE }, { ";", KEYWORD_TOKEN_TYPE }, { "", 0 } } },
+	{ "<while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA, { { "~~", 0 }, { "WHILE", KEYWORD_TOKEN_TYPE }, { "<while_cycle_head_expression>", ABSTRACT_TOKEN_TYPE }, { "<statement>", ABSTRACT_TOKEN_TYPE | REPEAT_TOKEN_ATRIBUTE_TYPE_TA | MANDATORY_TOKEN_ATRIBUTE_TYPE_TA }, { ";", KEYWORD_TOKEN_TYPE }, { "", 0 } } },
+
+	//
+
+	{ "<do_while_cycle_cond>", ABSTRACT_TOKEN_TYPE | VARIATIVE_PATERN_TYPE_TA, { { "~~", 0 }, { "<low_prioryty_expression>", ABSTRACT_TOKEN_TYPE }, { "", 0 } } },
+
+	{ "<do_while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA, { { "~~", 0 }, { "DO", KEYWORD_TOKEN_TYPE }, { "<statement>", ABSTRACT_TOKEN_TYPE | REPEAT_TOKEN_ATRIBUTE_TYPE_TA | MANDATORY_TOKEN_ATRIBUTE_TYPE_TA }, { "WHILE", KEYWORD_TOKEN_TYPE }, { "<do_while_cycle_cond>", ABSTRACT_TOKEN_TYPE }, { "", 0 } } },
 
 	//
 
@@ -256,7 +262,7 @@ sourceNotations[] = {
 
 	{ "<output>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA, { { "~~", 0 }, { "PUT", KEYWORD_TOKEN_TYPE }, { "(", KEYWORD_TOKEN_TYPE }, { "<expression>", ABSTRACT_TOKEN_TYPE }, { ")", KEYWORD_TOKEN_TYPE }, { "", 0 } } },
 
-	{ "<statement>", ABSTRACT_TOKEN_TYPE | VARIATIVE_PATERN_TYPE_TA, { { "~~", 0 }, { "<recursive_descent_end_point>", ABSTRACT_TOKEN_TYPE }, { "<bind>", ABSTRACT_TOKEN_TYPE }, { "<cond_block>", ABSTRACT_TOKEN_TYPE }, { "<forto_cycle>", ABSTRACT_TOKEN_TYPE }, { "<while_cycle>", ABSTRACT_TOKEN_TYPE }, { "<labeled_point>", ABSTRACT_TOKEN_TYPE }, { "<goto_label>", ABSTRACT_TOKEN_TYPE }, { "<input>", ABSTRACT_TOKEN_TYPE }, { "<output>", ABSTRACT_TOKEN_TYPE }, { "", 0 } } },
+	{ "<statement>", ABSTRACT_TOKEN_TYPE | VARIATIVE_PATERN_TYPE_TA, { { "~~", 0 }, { "<recursive_descent_end_point>", ABSTRACT_TOKEN_TYPE }, { "<bind>", ABSTRACT_TOKEN_TYPE }, { "<cond_block>", ABSTRACT_TOKEN_TYPE }, { "<forto_cycle>", ABSTRACT_TOKEN_TYPE }, { "<while_cycle>", ABSTRACT_TOKEN_TYPE }, { "<do_while_cycle>", ABSTRACT_TOKEN_TYPE }, { "<labeled_point>", ABSTRACT_TOKEN_TYPE }, { "<goto_label>", ABSTRACT_TOKEN_TYPE }, { "<input>", ABSTRACT_TOKEN_TYPE }, { "<output>", ABSTRACT_TOKEN_TYPE }, { "", 0 } } },
 
 	{ "<program>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA, { { "~~", 0 }, { "NAME", KEYWORD_TOKEN_TYPE }, { "<program_name>", 0 }, { ";", KEYWORD_TOKEN_TYPE }, { "BODY", KEYWORD_TOKEN_TYPE }, { "DATA", KEYWORD_TOKEN_TYPE }, { "<declaration>", ABSTRACT_TOKEN_TYPE | (REPEAT_TOKEN_ATRIBUTE_TYPE_TA | 0/*~0*/) | MANDATORY_TOKEN_ATRIBUTE_TYPE_TA }, { ";", KEYWORD_TOKEN_TYPE }, { "<statement>", ABSTRACT_TOKEN_TYPE | REPEAT_TOKEN_ATRIBUTE_TYPE_TA | MANDATORY_TOKEN_ATRIBUTE_TYPE_TA }, { "END", KEYWORD_TOKEN_TYPE }, { "", 0 } } },
 
@@ -420,11 +426,17 @@ productionNotations[] = {
 
     //
 
-	{ "<cycle_head_expression>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | POST_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "jz label%d_point_end;\r\n", 0 }, { "", 0 } } },
+	{ "<while_cycle_head_expression>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | POST_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "    pop ax;\r\n    and ax, ax;\r\n    jnz label%d_while_cycle_exit;\r\n", 0 }, { "", 0 } } },
 
-	{ "<while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | PRE_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "label%d_point_begin:\r\n", 0 }, { "", 0 } }, BASE_ASSIGNATION_STAGE },
+	{ "<while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | PRE_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "    label%d_while_cycle:\r\n", 0 }, { "", 0 } }, BASE_ASSIGNATION_STAGE },
 
-	{ "<while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | POST_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "jmp label%d_point_begin\r\nlabel%d_point_end:\r\n", 0 }, { "", 0 } }, BASE_ASSIGNATION_STAGE },
+	{ "<while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | POST_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "    jmp label%d_while_cycle;\r\n    label%d_while_cycle_exit:\r\n", 0 }, { "", 0 } }, BASE_ASSIGNATION_STAGE },
+
+	//
+
+	{ "<do_while_cycle_cond>", ABSTRACT_TOKEN_TYPE | VARIATIVE_PATERN_TYPE_TA | POST_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "    pop ax;\r\n    and ax, ax;\r\n    jnz label%d_do_while_cycle_exit;\r\n    jmp label%d_do_while_cycle_statement;\r\n    label%d_do_while_cycle_exit:\r\n", 0 }, { "", 0 } } },
+
+	{ "<do_while_cycle>", ABSTRACT_TOKEN_TYPE | SEQUENCE_PATERN_TYPE_TA | PRE_RODUCTION_FOR_ABSTRACT_TOKEN_TYPE, { { "~~", 0 }, { "    label%d_do_while_cycle_statement:\r\n", 0 }, { "", 0 } }, BASE_ASSIGNATION_STAGE },
 
 	//
 

@@ -41,7 +41,7 @@
 #define MAX_TOKEN_VALUES_SIZE (8192 * 16)
 
 #define MAX_TOKENS4TOKEN_COUNT_T 128
-#define MAX_TOKEN_LENGTH_T 128
+#define MAX_TOKEN_LENGTH_T 160
 
 #define MAX_CAPTURE_DEEP 16
 
@@ -102,7 +102,7 @@
 	"  ;\r\n" \
 	"  endcyclea :\r\n" \
 	"  PUT ( _RESULTO )\r\n" \
-	"  END\r\n" \
+	"END\r\n" \
 	"\r\n"
 
 #define PREDEFINED_TEXT2 \
@@ -129,7 +129,7 @@
 	"  ;\r\n" \
 	"  endcyclea :\r\n" \
 	"  PUT ( _VALUEIN )\r\n" \
-	"  END\r\n" \
+	"END\r\n" \
 	"\r\n"
 
 
@@ -146,7 +146,29 @@
 	"  GET ( _DDDDDDD )\r\n" \
 	"  GET ( _EEEEEEE )\r\n" \
 	"  PUT ( _KKKKKKK + _BBBBBBB - _DDDDDDD DIV 2 + _EEEEEEE * 4 )\r\n" \
-	"  END\r\n" \
+	"END\r\n" \
+	"\r\n"
+
+#define PREDEFINED_TEXT4 \
+	"NAME _PROGRAM ; \r\n" \
+	"BODY DATA INTEGER16 _AAAAAAA ;\r\n" \
+	"  GET ( _AAAAAAA )\r\n" \
+	"  WHILE ( _AAAAAAA >= 1 )\r\n" \
+	"    _AAAAAAA - 1 >> _AAAAAAA\r\n" \
+	"    PUT ( _AAAAAAA )\r\n" \
+	"  ;\r\n" \
+	"END\r\n" \
+	"\r\n"
+
+#define PREDEFINED_TEXT5 \
+	"NAME _PROGRAM ; \r\n" \
+	"BODY DATA INTEGER16 _AAAAAAA ;\r\n" \
+	"  GET ( _AAAAAAA )\r\n" \
+	"  DO \r\n" \
+	"    _AAAAAAA - 1 >> _AAAAAAA\r\n" \
+	"    PUT ( _AAAAAAA )\r\n" \
+	"  WHILE ( _AAAAAAA >= 1 )\r\n" \
+	"END\r\n" \
 	"\r\n"
 
 #define MAX_TEXT_SIZE 16384
