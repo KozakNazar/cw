@@ -218,7 +218,8 @@ int main(int argc, char* argv[]){
 	char * text;
 	size_t sourceSize = loadSource(&text, parameters[INPUT_FILENAME_WITH_EXTENSION_PARAMETER]);
 	if (!sourceSize){
-		printf("Press any key to continue . . .");
+		printf("Empty source . . .");		
+		printf("Press Enter to exit . . .");
 		getchar();
 		return 0;
 	}
@@ -227,7 +228,7 @@ int main(int argc, char* argv[]){
 	if (!_getcwd(path, PATH_NAME_LENGH))
 	{
 		printf("getcwd error ...\r\n");
-		printf("Press any key to continue . . .");
+		printf("Press Enter to exit . . .");
 		return -1;
 	}
 
@@ -238,7 +239,7 @@ int main(int argc, char* argv[]){
 	if (mode & MAKE_ASSEMBLY || getchar() == 'y'){
 		if (false && !(mode & LEXICAL_ANALISIS_MODE)){
 			printf("NO SUPORTED MODE ...\r\n");
-			printf("Press any key to continue . . .");
+			printf("Press Enter to exit . . .");
 			getchar();
 			return 0;
 		}
@@ -262,7 +263,7 @@ int main(int argc, char* argv[]){
 		translator.close();
 
 		if (!mode){
-			printf("\r\n\r\nPress any key to next step");
+			printf("\r\n\r\nPress Enter to next step");
 			fflush(stdin);
 			getchar();
 			system("CLS");
@@ -283,13 +284,13 @@ int main(int argc, char* argv[]){
 		if (system((char *)temp))
 		{
 			fflush(stdin);
-			printf("\r\n\r\nCompile error\r\nPress any key to continue . . .");
+			printf("\r\n\r\nCompile error\r\nPress Enter to continue . . .");
 			getchar();
 			return 0;
 		}
 		else if (!mode){
 			fflush(stdin);
-			printf("\r\n\r\nPress any key to next step");
+			printf("\r\n\r\nPress Enter to next step");
 			getchar();
 			system("CLS");
 			fflush(stdin);
@@ -300,7 +301,7 @@ int main(int argc, char* argv[]){
 	}
 
 	if (!mode){
-		printf("Enter 'y' to run program action(to pass action process enter 'n' or others key)");
+		printf("Enter 'y' to run program action(to pass action process Enter 'n' or others key)");
 	}
 	fflush(stdin);
 	if (mode & RUN_BINARY || getchar() == 'y'){
@@ -315,7 +316,7 @@ int main(int argc, char* argv[]){
 		printf("\r\n");
 	}
 
-	printf("\r\n\r\nPress any key to continue . . .");
+	printf("\r\n\r\nPress Enter to exit . . .");
 	getchar();
 
 	return 0;
